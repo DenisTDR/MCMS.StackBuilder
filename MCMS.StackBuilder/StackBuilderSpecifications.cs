@@ -6,7 +6,7 @@ using MCMS.Data;
 using MCMS.Display.Link;
 using MCMS.Display.Menu;
 using MCMS.StackBuilder.Data;
-using MCMS.StackBuilder.Generators;
+using MCMS.StackBuilder.Generator;
 using MCMS.StackBuilder.Stacks;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -25,6 +25,8 @@ namespace MCMS.StackBuilder
             });
             services.Configure<MenuConfig>(ConfigureMenu);
             services.AddScoped<StackCodeGenerator>();
+            
+            services.AddOptions<LayoutIncludesOptions>().Configure(c => { c.AddForPages("CustomLibIncludes"); });
         }
 
         private void ConfigureMenu(MenuConfig config)

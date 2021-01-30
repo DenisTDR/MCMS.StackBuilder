@@ -1,7 +1,8 @@
 @using MCMS.Base.Repositories
 @using MCMS.Base.Extensions
-@using MCMS.StackBuilder.Generators
 @using AutoMapper
+@using MCMS.Base.Helpers
+@using MCMS.StackBuilder.Generator
 @using MCMS.StackBuilder.Stacks
 
 @inject ITranslationsRepository TransRepo
@@ -13,39 +14,59 @@
 @{
     ViewBag.Title = ViewBag.ModelName + ": " + Model.Model;
     Layout = "_ModalLayout";
+    ViewBag.ModalDialogClasses = "modal-xl";
     var genResult = await CodeGenerator.GenerateClasses(Mapper.Map<StackEntity>(Model.TModel));
+    var modalId = "modal-" + Utils.GenerateRandomHexString(15);
+    var commands = new List<string>()
+    {
+        "curl " + Url.ActionLink(nameof(StacksApiController.GetGzippedArchive), "StacksApi", new {token = Model.TModel.Token}) + " | tar -xzv",
+        "curl " + Url.ActionLink(nameof(StacksApiController.GetTarArchive), "StacksApi", new {token = Model.TModel.Token}) + " | tar -xv",
+        Url.ActionLink(nameof(StacksApiController.GeneratePlainText), "StacksApi", new {token = Model.TModel.Token}),
+        Url.ActionLink(nameof(StacksApiController.GenerateJson), "StacksApi", new {token = Model.TModel.Token})
+    };
 }
-<div class="modal-body">
+<div class="modal-body" id="@modalId">
     <div class="container-fluid generate-links-container">
-        <div class="row">
-            <div class="col-12">
-                <textarea>curl localhost:6900/api/@Model.TModel.Token/tar | tar -xv</textarea>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <textarea>curl localhost:6900/api/@Model.TModel.Token/tgz | tar -xzv</textarea>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <textarea>localhost:6900/api/@Model.TModel.Token/text</textarea>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <textarea>localhost:6900/api/@Model.TModel.Token/json</textarea>
-            </div>
-        </div>
-        @foreach (var kvp in genResult)
-        {
+        <div class="atom-one-dark-reasonable">
             <div class="row">
-                <div class="col-12">
-                    <label>@kvp.Key</label>
-                    <textarea>@kvp.Value</textarea>
+                @foreach (var cmd in commands)
+                {
+                    <div class="col-6 ">
+                        <pre class="snippet-wrapper"><button class="btn btn-light btn-sm copy-btn" data-clipboard-text="@cmd"><i class="far fa-copy"></i></button><code class="plaintext">@cmd</code></pre>
+                    </div>
+                }
+            </div>
+        </div >
+
+        <div class="row">
+            <div class="col-12">
+                <ul class="nav nav-tabs" role="tablist">
+                    @{
+                        var first = genResult.Keys.FirstOrDefault();
+                    }
+                    @foreach (var kvp in genResult)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link @(first == kvp.Key ? "active" : "")" id="code-tab-@kvp.Key" data-toggle="tab" href="#code-panel-@kvp.Key"
+                               role="tab" aria-controls="home" aria-selected="false">
+                                @kvp.Key
+                            </a>
+                        </li>
+                    }
+                </ul>
+                <div class="tab-content">
+                    @foreach (var kvp in genResult)
+                    {
+                        <div class="tab-pane fade @(first == kvp.Key ? "show active" : "")" id="code-panel-@kvp.Key" role="tabpanel" aria-labelledby="code-tab-@kvp.Key">
+                            <div class="mt-4">
+                                @* atom-one-dark *@
+                                <pre class="snippet-wrapper"><button class="btn btn-light btn-sm copy-btn" data-clipboard-text="@kvp.Value"><i class="far fa-copy"></i></button><code class="csharp">@kvp.Value</code></pre>
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
-        }
+        </div>
     </div>
 </div>
 <div class="modal-footer">
@@ -55,8 +76,57 @@
 @using (Html.BeginMStyles())
 {
     <style>
-        .generate-links-container textarea {
-            width:  100%;
+        .snippet-wrapper {
+            position: relative;
+            overflow: visible;
+        }
+        .snippet-wrapper .copy-btn {
+            top: 4px;
+            right: 4px;
+            padding: 2px 6px;
+            position: absolute;
+            opacity: 0.1;
+            transition: opacity .5s;
+        }
+        .snippet-wrapper:hover .copy-btn{
+            opacity: .7;
+        }
+        .snippet-wrapper .copy-btn:hover{
+            opacity: 1;
         }
     </style>
+}
+
+@using (Html.BeginMPageScripts())
+{
+    <script>
+        var codeBlocks = $("#@modalId pre code");
+        for (var i = 0; i < codeBlocks.length; i++) {
+            hljs.highlightBlock(codeBlocks[i]);
+        }
+        var clipboard = new ClipboardJS('#@modalId .btn');
+        
+        clipboard.on('success', function(e) {
+            showTooltip($(e.trigger), "Copied!");
+        });
+        
+        clipboard.on('error', function(e) {
+            showTooltip($(e.trigger), "Couldn't copy. Please use standard Ctrl-C/⌘+C way.");
+        });
+        
+        function showTooltip(target, text) {
+            if (!target.data("leave-bound")) {
+                target.data("leave-bound", true)
+                target.on("mouseleave", function () {
+                    setTimeout(function () {
+                        target.tooltip("dispose");
+                    });
+                });
+            }
+            target.attr("data-placement", "bottom");
+            target.attr("title", text);
+            target.tooltip("show", {container: 'body'});
+        }
+        
+    </script>
 }

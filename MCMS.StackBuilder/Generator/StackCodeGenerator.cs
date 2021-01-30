@@ -1,18 +1,13 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using ICSharpCode.SharpZipLib.GZip;
-using ICSharpCode.SharpZipLib.Tar;
-using MCMS.Controllers.Api;
 using MCMS.StackBuilder.Stacks;
 using MCMS.StackBuilder.Stacks.SubModels;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Razor.Templating.Core;
 
-namespace MCMS.StackBuilder.Generators
+namespace MCMS.StackBuilder.Generator
 {
     public class StackCodeGenerator
     {
@@ -97,6 +92,11 @@ namespace MCMS.StackBuilder.Generators
 
         private async Task<string> RenderTemplateAndIndent(string templateName, object model)
         {
+            if (!templateName.StartsWith("ClassTemplates"))
+            {
+                templateName = "ClassTemplates/" + templateName;
+            }
+
             var str = await RazorTemplateEngine.RenderAsync(templateName, model);
             str = (await CSharpSyntaxTree.ParseText(str).GetRootAsync()).NormalizeWhitespace().ToFullString();
             return str;

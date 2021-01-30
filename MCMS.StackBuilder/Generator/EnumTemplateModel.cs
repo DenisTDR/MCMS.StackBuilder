@@ -1,7 +1,7 @@
 using MCMS.StackBuilder.Stacks;
 using MCMS.StackBuilder.Stacks.SubModels;
 
-namespace MCMS.StackBuilder.Generators
+namespace MCMS.StackBuilder.Generator
 {
     public class EnumTemplateModel
     {

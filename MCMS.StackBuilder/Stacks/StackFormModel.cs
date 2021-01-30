@@ -9,6 +9,7 @@ namespace MCMS.StackBuilder.Stacks
     public class StackFormModel : IFormModel
     {
         [FormlyField(ClassName = "col-6 d-flex")]
+        [RegularExpression("^[a-zA-Z_][a-zA-Z0-9_]{3,}$")]
         public string Name { get; set; }
 
         [FormlyField(ClassName = "col-6 d-flex")]

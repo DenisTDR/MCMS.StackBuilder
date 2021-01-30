@@ -9,7 +9,7 @@ using MCMS.Base.Controllers.Api;
 using MCMS.Base.Data;
 using MCMS.Base.Exceptions;
 using MCMS.Base.Extensions;
-using MCMS.StackBuilder.Generators;
+using MCMS.StackBuilder.Generator;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -53,7 +53,7 @@ namespace MCMS.StackBuilder.Stacks
 
             var ms = new MemoryStream();
 
-            ArchiveHelper.WriteGzippedTarStream(ms, genResult);
+            ArchiveHelper.WriteGzippedTarStream(ms, genResult, stack.GetDirectoryName());
 
             ms.Position = 0;
             return File(ms, "application/x-gtar", stack.Name + "-stack.tgz");
@@ -68,7 +68,7 @@ namespace MCMS.StackBuilder.Stacks
 
             var ms = new MemoryStream();
 
-            ArchiveHelper.WriteTarStream(ms, genResult);
+            ArchiveHelper.WriteTarStream(ms, genResult, stack.GetDirectoryName());
 
             ms.Position = 0;
             return File(ms, "application/x-tar", stack.Name + "-stack.tar");

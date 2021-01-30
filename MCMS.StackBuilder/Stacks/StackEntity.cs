@@ -38,5 +38,15 @@ namespace MCMS.StackBuilder.Stacks
         {
             return "MCMS.StackGenerated";
         }
+
+        public string GetDirectoryName()
+        {
+            if (Config.CreateDirectoryWithPluralName)
+            {
+                return PluralName;
+            }
+
+            return null;
+        }
     }
 }
