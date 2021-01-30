@@ -1,0 +1,19 @@
+@using MCMS.StackBuilder.Stacks
+@using MCMS.StackBuilder.Stacks.SubModels
+@model MCMS.StackBuilder.Stacks.StackEntity
+@{
+    Layout = null;
+}
+using MCMS.Base.Data.TypeConfig;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace @Model.GetNamespace()
+{
+public class @(Model.GetNameFor(ModelType.Entity))TypeConfig : EntityTypeConfiguration< @Model.GetNameFor(ModelType.Entity)>
+{
+public override void Configure(EntityTypeBuilder< @Model.GetNameFor(ModelType.Entity)> builder)
+{
+base.Configure(builder);
+}
+}
+}

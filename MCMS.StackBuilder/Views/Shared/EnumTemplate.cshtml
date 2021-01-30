@@ -1,0 +1,32 @@
+@model MCMS.StackBuilder.Generators.EnumTemplateModel
+@{
+    Layout = null;
+}
+@if (Model.PropertyModel.EnumMembers.Any(em => !string.IsNullOrEmpty(em.Value)))
+{
+    @Html.Raw("using System.Runtime.Serialization;");
+}
+@if (Model.PropertyModel.EnumMembers.Any(em => !string.IsNullOrEmpty(em.DisplayName)))
+{
+    @Html.Raw("using System.ComponentModel.DataAnnotations;");
+}
+namespace @Model.Stack.GetNamespace()
+{
+public enum @Model.PropertyModel.EnumName
+{
+
+@foreach (var enumMember in Model.PropertyModel.EnumMembers)
+{
+    @if (!string.IsNullOrEmpty(enumMember.Value))
+    {
+        @Html.Raw($"[EnumMember(Value = \"{enumMember.Value}\")]\n")
+    }
+    @if (!string.IsNullOrEmpty(enumMember.DisplayName))
+    {
+        @Html.Raw($"[Display(Name = \"{enumMember.DisplayName}\")]\n")
+    }
+    @Html.Raw($"{enumMember.Name},\n")
+}
+
+}
+}

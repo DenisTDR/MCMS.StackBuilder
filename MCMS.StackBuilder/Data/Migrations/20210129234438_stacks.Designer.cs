@@ -3,15 +3,17 @@ using System;
 using MCMS.StackBuilder.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace MCMS.StackBuilder.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210129234438_stacks")]
+    partial class stacks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -248,16 +250,10 @@ namespace MCMS.StackBuilder.Data.Migrations
                     b.Property<string>("PropertiesSerialized")
                         .HasColumnType("text");
 
-                    b.Property<string>("Token")
-                        .HasColumnType("text");
-
                     b.Property<DateTime>("Updated")
                         .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Token")
-                        .IsUnique();
 
                     b.ToTable("Stacks");
                 });

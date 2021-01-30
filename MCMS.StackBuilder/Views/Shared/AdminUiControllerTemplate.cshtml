@@ -1,0 +1,18 @@
+@using MCMS.StackBuilder.Stacks
+@using MCMS.StackBuilder.Stacks.SubModels
+@model MCMS.StackBuilder.Stacks.StackEntity
+@{
+    Layout = null;
+}
+using System.ComponentModel.DataAnnotations;
+using MCMS.Controllers.Ui;
+
+namespace @Model.GetNamespace()
+{
+[Display(Name = "@Model.PluralName")]
+public class @Model.GetNameFor(ModelType.UiController) :
+GenericModalAdminUiController @Html.Raw("<")@Model.GetNameFor(ModelType.Entity), @Model.GetNameFor(ModelType.FormModel), @Model.GetNameFor(ModelType.ViewModel), @Model.GetNameFor(ModelType.AdminApiController)>
+{
+
+}
+}

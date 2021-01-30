@@ -1,0 +1,16 @@
+@using MCMS.StackBuilder.Stacks
+@using MCMS.StackBuilder.Stacks.SubModels
+@model MCMS.StackBuilder.Stacks.StackEntity
+@{
+    Layout = null;
+}
+using MCMS.Controllers.Api;
+
+namespace @Model.GetNamespace()
+{
+public class @Model.GetNameFor(ModelType.AdminApiController) :
+CrudAdminApiController @Html.Raw("<")@Model.GetNameFor(ModelType.Entity), @Model.GetNameFor(ModelType.FormModel), @Model.GetNameFor(ModelType.ViewModel)>
+{
+
+}
+}

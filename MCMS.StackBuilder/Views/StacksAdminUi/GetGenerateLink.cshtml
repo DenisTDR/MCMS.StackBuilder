@@ -1,0 +1,62 @@
+@using MCMS.Base.Repositories
+@using MCMS.Base.Extensions
+@using MCMS.StackBuilder.Generators
+@using AutoMapper
+@using MCMS.StackBuilder.Stacks
+
+@inject ITranslationsRepository TransRepo
+@inject StackCodeGenerator CodeGenerator
+@inject IMapper Mapper
+
+@model MCMS.Display.DetailsViewModelT<MCMS.StackBuilder.Stacks.StackViewModel>
+
+@{
+    ViewBag.Title = ViewBag.ModelName + ": " + Model.Model;
+    Layout = "_ModalLayout";
+    var genResult = await CodeGenerator.GenerateClasses(Mapper.Map<StackEntity>(Model.TModel));
+}
+<div class="modal-body">
+    <div class="container-fluid generate-links-container">
+        <div class="row">
+            <div class="col-12">
+                <textarea>curl localhost:6900/api/@Model.TModel.Token/tar | tar -xv</textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <textarea>curl localhost:6900/api/@Model.TModel.Token/tgz | tar -xzv</textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <textarea>localhost:6900/api/@Model.TModel.Token/text</textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <textarea>localhost:6900/api/@Model.TModel.Token/json</textarea>
+            </div>
+        </div>
+        @foreach (var kvp in genResult)
+        {
+            <div class="row">
+                <div class="col-12">
+                    <label>@kvp.Key</label>
+                    <textarea>@kvp.Value</textarea>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">@await TransRepo.GetValueOrSlug("close")</button>
+</div>
+
+@using (Html.BeginMStyles())
+{
+    <style>
+        .generate-links-container textarea {
+            width:  100%;
+        }
+    </style>
+}

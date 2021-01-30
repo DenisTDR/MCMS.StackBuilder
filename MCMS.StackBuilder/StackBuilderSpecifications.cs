@@ -6,6 +6,8 @@ using MCMS.Data;
 using MCMS.Display.Link;
 using MCMS.Display.Menu;
 using MCMS.StackBuilder.Data;
+using MCMS.StackBuilder.Generators;
+using MCMS.StackBuilder.Stacks;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MCMS.StackBuilder
@@ -22,6 +24,7 @@ namespace MCMS.StackBuilder
                 c.SiteCopyright = "Copyright &copy; TDR 2021";
             });
             services.Configure<MenuConfig>(ConfigureMenu);
+            services.AddScoped<StackCodeGenerator>();
         }
 
         private void ConfigureMenu(MenuConfig config)
@@ -40,15 +43,9 @@ namespace MCMS.StackBuilder
                 }
             }.RequiresRoles("Admin"));
 
-            config.Items.Add(new MenuSection
-            {
-                Name = "Armour",
-                IsCollapsed = false,
-                Items = new List<IMenuItem>
-                {
-                    // new MenuLink("Profile", typeof(ProfilesUiController)).WithIconClasses("fas fa-users"),
-                }
-            }.RequiresRoles("Moderator"));
+            config.Items.Add(
+                new MenuLink("Stacks", typeof(StacksAdminUiController)).WithIconClasses("fas fa-users")
+                    .RequiresRoles("Moderator"));
         }
     }
 }

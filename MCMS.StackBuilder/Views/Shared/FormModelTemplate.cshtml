@@ -1,0 +1,23 @@
+@using MCMS.StackBuilder.Stacks.SubModels
+@using MCMS.StackBuilder.Stacks
+@model MCMS.StackBuilder.Stacks.StackEntity
+@{
+    Layout = null;
+}
+using MCMS.Base.Data.FormModels;
+@if (Model.Properties.Any(p => p.IsList))
+{
+    @Html.Raw("using System.Collections.Generic;")
+}
+
+namespace @Model.GetNamespace()
+{
+public class @Model.GetNameFor(ModelType.FormModel) : IFormModel
+{
+
+@foreach (var prop in Model.Properties)
+{
+    @Html.Raw($"public {prop.GetTypeStr(ModelType.ViewModel)} {prop.Name} {{ get; set; }} \n")
+}
+}
+}
