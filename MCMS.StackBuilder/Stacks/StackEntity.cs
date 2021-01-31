@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using MCMS.Base.Data.Entities;
 using MCMS.Base.Helpers;
 using MCMS.StackBuilder.Stacks.SubModels;
@@ -12,6 +13,7 @@ namespace MCMS.StackBuilder.Stacks
         public string Token { get; set; }
         public string Name { get; set; }
         public string PluralName { get; set; }
+        public string RootNamespace { get; set; }
 
         public string PropertiesSerialized
         {
@@ -36,7 +38,14 @@ namespace MCMS.StackBuilder.Stacks
 
         public string GetNamespace()
         {
-            return "MCMS.StackGenerated";
+            // return !string.IsNullOrEmpty(RootNamespace) ? RootNamespace : "MCMS.StackGenerated";
+            return string.Join(".",
+                new[]
+                    {
+                        string.IsNullOrEmpty(RootNamespace) ? "MCMS.StackGenerated" : RootNamespace,
+                        Config.CreateDirectoryWithPluralName ? PluralName : null
+                    }
+                    .Where(s => !string.IsNullOrEmpty(s)));
         }
 
         public string GetDirectoryName()

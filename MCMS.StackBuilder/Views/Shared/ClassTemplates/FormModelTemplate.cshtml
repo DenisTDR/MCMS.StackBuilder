@@ -9,6 +9,14 @@ using MCMS.Base.Data.FormModels;
 {
     @Html.Raw("using System.Collections.Generic;")
 }
+@if (Model.Properties.Any(p => p.IsValidList() || p.UseCkEditor()))
+{
+    @Html.Raw("using MCMS.Base.SwaggerFormly.Formly.Fields;")
+}
+@if (Model.Properties.Any(p => !string.IsNullOrEmpty(p.DisplayName) || p.Required))
+{
+    @Html.Raw("using System.ComponentModel.DataAnnotations;")
+}
 
 namespace @Model.GetNamespace()
 {
@@ -17,7 +25,23 @@ public class @Model.GetNameFor(ModelType.FormModel) : IFormModel
 
 @foreach (var prop in Model.Properties)
 {
-    @Html.Raw($"public {prop.GetTypeStr(ModelType.ViewModel)} {prop.Name} {{ get; set; }} \n")
+    if (prop.IsList)
+    {
+        @Html.Raw("[FormlyArray(FieldGroupClassName = \"row\", Wrappers = new[] {\"card\"})] \n")
+    }
+    if (prop.Type == PropertyType.String && prop.IsRichText)
+    {
+        @Html.Raw("[FormlyCkEditor] \n")
+    }
+    if (!string.IsNullOrEmpty(prop.DisplayName))
+    {
+        @Html.Raw("[Display(Name=\"" + prop.DisplayName + "\")] \n")
+    }
+    if (prop.Required)
+    {
+        @Html.Raw("[Required]\n")
+    }
+    @Html.Raw($"public {prop.GetTypeStr(ModelType.FormModel)} {prop.Name} {{ get; set; }} \n")
 }
 }
 }

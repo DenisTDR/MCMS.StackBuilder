@@ -20,6 +20,10 @@ public class @Model.GetNameFor(ModelType.ViewModel) : ViewModel
 
 @foreach (var prop in Model.Properties)
 {
+    if (!string.IsNullOrEmpty(prop.DisplayName))
+    {
+        @Html.Raw("[Display(Name=\"" + prop.DisplayName + "\")] \n")
+    }
     @Html.Raw($"public {prop.GetTypeStr(ModelType.ViewModel)} {prop.Name} {{ get; set; }} \n")
 }
 

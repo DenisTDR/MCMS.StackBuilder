@@ -10,6 +10,11 @@ using MCMS.Base.Data.Entities;
 {
     @Html.Raw("using System.Collections.Generic;")
 }
+@if (Model.Properties.Any(p => p.Required))
+{
+    @Html.Raw("using System.ComponentModel.DataAnnotations;")
+}
+
 
 namespace @Model.GetNamespace()
 {
@@ -19,6 +24,10 @@ public class @Model.GetNameFor(ModelType.Entity) : Entity
 
 @foreach (var prop in Model.Properties)
 {
+    if (prop.Required)
+    {
+        @Html.Raw("[Required]\n")
+    }
     @Html.Raw($"public {prop.GetTypeStr(ModelType.Entity)} {prop.Name} {{ get; set; }} \n")
 }
 

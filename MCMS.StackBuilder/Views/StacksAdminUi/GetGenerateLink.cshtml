@@ -14,15 +14,17 @@
 @{
     ViewBag.Title = ViewBag.ModelName + ": " + Model.Model;
     Layout = "_ModalLayout";
-    ViewBag.ModalDialogClasses = "modal-xl";
+    ViewBag.ModalDialogClasses = "modal-xl modal-3xl";
     var genResult = await CodeGenerator.GenerateClasses(Mapper.Map<StackEntity>(Model.TModel));
     var modalId = "modal-" + Utils.GenerateRandomHexString(15);
-    var commands = new List<string>()
+    var stack = Model.TModel;
+    var values = new {token = stack.Token, name = stack.PluralName};
+    var commands = new List<string>
     {
-        "curl " + Url.ActionLink(nameof(StacksApiController.GetGzippedArchive), "StacksApi", new {token = Model.TModel.Token}) + " | tar -xzv",
-        "curl " + Url.ActionLink(nameof(StacksApiController.GetTarArchive), "StacksApi", new {token = Model.TModel.Token}) + " | tar -xv",
-        Url.ActionLink(nameof(StacksApiController.GeneratePlainText), "StacksApi", new {token = Model.TModel.Token}),
-        Url.ActionLink(nameof(StacksApiController.GenerateJson), "StacksApi", new {token = Model.TModel.Token})
+        "curl " + Url.ActionLink(nameof(StacksApiController.GetGzippedArchive), "StacksApi", values) + " | tar -xzv",
+        "curl " + Url.ActionLink(nameof(StacksApiController.GetTarArchive), "StacksApi", values) + " | tar -xv",
+        Url.ActionLink(nameof(StacksApiController.GeneratePlainText), "StacksApi", values),
+        Url.ActionLink(nameof(StacksApiController.GenerateJson), "StacksApi", values)
     };
 }
 <div class="modal-body" id="@modalId">

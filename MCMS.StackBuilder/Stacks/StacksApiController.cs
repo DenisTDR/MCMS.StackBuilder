@@ -23,7 +23,7 @@ namespace MCMS.StackBuilder.Stacks
             ServiceProvider.GetRequiredService<StackCodeGenerator>();
 
         [HttpGet]
-        [ApiRoute("{token}/json")]
+        [ApiRoute("{token}/json/{name?}")]
         public async Task<object> GenerateJson([FromRoute] [Required] string token)
         {
             var stack = await GetStackByToken(token);
@@ -32,7 +32,7 @@ namespace MCMS.StackBuilder.Stacks
         }
 
         [HttpGet]
-        [ApiRoute("{token}/text")]
+        [ApiRoute("{token}/text/{name?}")]
         [Produces("text/plain")]
         public async Task<object> GeneratePlainText([FromRoute] [Required] string token)
         {
@@ -45,7 +45,7 @@ namespace MCMS.StackBuilder.Stacks
         }
 
         [HttpGet]
-        [ApiRoute("{token}/tgz")]
+        [ApiRoute("{token}/tgz/{name?}")]
         public async Task<IActionResult> GetGzippedArchive([FromRoute] [Required] string token)
         {
             var stack = await GetStackByToken(token);
@@ -60,7 +60,7 @@ namespace MCMS.StackBuilder.Stacks
         }
 
         [HttpGet]
-        [ApiRoute("{token}/tar")]
+        [ApiRoute("{token}/tar/{name?}")]
         public async Task<IActionResult> GetTarArchive([FromRoute] [Required] string token)
         {
             var stack = await GetStackByToken(token);

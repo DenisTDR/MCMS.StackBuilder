@@ -8,7 +8,7 @@ namespace MCMS.StackBuilder.Stacks
     {
         protected override Task OnCreating(StackEntity e)
         {
-            e.Token = Utils.GenerateRandomHexString(15);
+            e.Token = Utils.GenerateRandomHexString(10);
             return base.OnCreating(e);
         }
     }

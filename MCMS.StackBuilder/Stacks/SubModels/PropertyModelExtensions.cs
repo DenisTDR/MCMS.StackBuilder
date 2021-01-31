@@ -10,6 +10,7 @@ namespace MCMS.StackBuilder.Stacks.SubModels
             {
                 case PropertyType.CustomType:
                     var str = propertyModel.GetCustomTypeName(modelType);
+
                     if (propertyModel.IsList)
                     {
                         str = "List<" + str + ">";

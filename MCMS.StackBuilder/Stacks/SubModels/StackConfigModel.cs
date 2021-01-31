@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Linq;
 using MCMS.Base.Data.FormModels;
+using MCMS.Base.SwaggerFormly.Formly;
 using MCMS.Base.SwaggerFormly.Formly.Fields;
 
 namespace MCMS.StackBuilder.Stacks.SubModels
@@ -12,6 +13,7 @@ namespace MCMS.StackBuilder.Stacks.SubModels
         public bool CreateDirectoryWithPluralName { get; set; }
 
         [FormlyField(ClassName = "col-8 d-flex", DefaultValue = false)]
+        [FormlyFieldProp("templateOptions.disabled", "!model.createEntity", "expressionProperties")]
         [DisplayName("Create TypeConfiguration")]
         public bool CreateEntityTypeConfigurationFile { get; set; }
 
@@ -27,23 +29,32 @@ namespace MCMS.StackBuilder.Stacks.SubModels
         [DisplayName("FormModel")]
         public bool CreateFormModel { get; set; }
 
-        [FormlyField(ClassName = "col-4 d-flex", DefaultValue = true)]
-        [DisplayName("UiController")]
-        public bool CreateUiController { get; set; }
 
-        [FormlyField(ClassName = "col-8 d-flex", DefaultValue = true)]
+        [FormlyField(ClassName = "col-4 d-flex", DefaultValue = true)]
+        [FormlyFieldProp("templateOptions.disabled",
+            "!model.createEntity || !model.createViewModel || !model.createFormModel", "expressionProperties")]
         [DisplayName("AdminApiController")]
         public bool CreateApiController { get; set; }
+
+        [FormlyField(ClassName = "col-8 d-flex", DefaultValue = true)]
+        [FormlyFieldProp("templateOptions.disabled",
+            "!model.createApiController || !model.createEntity || !model.createViewModel || !model.createFormModel",
+            "expressionProperties")]
+        [DisplayName("UiController")]
+        public bool CreateUiController { get; set; }
 
         public override string ToString()
         {
             return string.Join(", ",
                 new[]
                 {
+                    CreateDirectoryWithPluralName ? "Directory" : null,
                     CreateEntity ? "Entity" : null,
                     CreateViewModel ? "ViewModel" : null,
                     CreateFormModel ? "FormModel" : null,
-                    CreateEntityTypeConfigurationFile ? "TypeConfig" : null
+                    ShouldCreateEntityTypeConfiguration() ? "TypeConfig" : null,
+                    ShouldCreateApiController() ? "AdminApiController" : null,
+                    ShouldCreateUiController() ? "UiController" : null,
                 }.Where(s => s != null));
         }
 

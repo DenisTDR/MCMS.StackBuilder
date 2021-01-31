@@ -3,9 +3,16 @@
 @model MCMS.StackBuilder.Stacks.StackEntity
 @{
     Layout = null;
+    var eProps = Model.Properties.Where(p => p.Type == PropertyType.CustomType && p.IsEntityWithStack).ToList();
+    var jdtProps = eProps.Where(p => p.JoinDbTable).ToList();
 }
 using System.ComponentModel.DataAnnotations;
 using MCMS.Controllers.Ui;
+@if (jdtProps.Any())
+{
+    @Html.Raw("using Microsoft.AspNetCore.Mvc.Filters;\n")
+    @Html.Raw("using Microsoft.EntityFrameworkCore;")
+}
 
 namespace @Model.GetNamespace()
 {
@@ -13,6 +20,17 @@ namespace @Model.GetNamespace()
 public class @Model.GetNameFor(ModelType.UiController) :
 GenericModalAdminUiController @Html.Raw("<")@Model.GetNameFor(ModelType.Entity), @Model.GetNameFor(ModelType.FormModel), @Model.GetNameFor(ModelType.ViewModel), @Model.GetNameFor(ModelType.AdminApiController)>
 {
-
+@if (jdtProps.Any())
+{
+    @Html.Raw(" public override void OnActionExecuting(ActionExecutingContext context) { \n")
+    @Html.Raw(" base.OnActionExecuting(context); \n")
+    @Html.Raw(" Repo.ChainQueryable(q => q \n")
+    foreach (var prop in jdtProps)
+    {
+        @Html.Raw($" .Include(c => c.{prop.Name})\n")
+    }
+    @Html.Raw(" ); \n")
+    @Html.Raw(" } \n")
+}
 }
 }
