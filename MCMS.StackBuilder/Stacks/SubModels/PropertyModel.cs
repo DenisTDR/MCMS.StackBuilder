@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using MCMS.Base.Data.FormModels;
 using MCMS.Base.SwaggerFormly.Formly;
+using MCMS.Base.SwaggerFormly.Formly.Base;
 using MCMS.Base.SwaggerFormly.Formly.Fields;
 
 namespace MCMS.StackBuilder.Stacks.SubModels
