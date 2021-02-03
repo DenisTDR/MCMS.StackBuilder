@@ -43,6 +43,7 @@ CrudAdminApiController @Html.Raw("<")@Model.GetNameFor(ModelType.Entity), @Model
 
     foreach (var prop in nleProps)
     {
+        @Html.Raw($"if(e.{prop.Name} != null) \n")
         @Html.Raw($"ServiceProvider.GetRepo<{prop.GetCustomTypeName(ModelType.Entity)}>().Attach(e.{prop.Name});\n")
     }
 

@@ -17,7 +17,7 @@ namespace MCMS.StackBuilder.Stacks
         [TableColumn] public string Token { get; set; }
         public string Name { get; set; }
 
-        [TableColumn(DbColumn = "Name", DbFuncFormat = "MDbFunctions.Concat(x.Namespace, '.', {0})")]
+        [TableColumn(DbColumn = "Name", DbFuncFormat = "MDbFunctions.Concat(x.RootNamespace, '.', {0})")]
         [DisplayName("Name")]
         public string FullName => string.Join(".",
             new[] {RootNamespace, Config.CreateDirectoryWithPluralName ? PluralName : null, Name}
