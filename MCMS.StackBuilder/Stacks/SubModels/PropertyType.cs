@@ -20,10 +20,13 @@ namespace MCMS.StackBuilder.Stacks.SubModels
         [EnumMember(Value = "decimal")] [Display(Name = "decimal")]
         Decimal,
 
+        [EnumMember(Value = "bool")] [Display(Name = "bool")]
+        Bool,
+
         [EnumMember(Value = "newEnum")] [Display(Name = "New Enum")]
         NewEnum,
 
         [EnumMember(Value = "customType")] [Display(Name = "Custom Existing Type")]
-        CustomType
+        CustomType,
     }
 }
