@@ -62,7 +62,7 @@
                         <div class="tab-pane fade @(first == kvp.Key ? "show active" : "")" id="code-panel-@kvp.Key" role="tabpanel" aria-labelledby="code-tab-@kvp.Key">
                             <div class="mt-4">
                                 @* atom-one-dark *@
-                                <pre class="snippet-wrapper"><button class="btn btn-light btn-sm copy-btn" data-clipboard-text="@kvp.Value"><i class="far fa-copy"></i></button><code class="csharp">@kvp.Value</code></pre>
+                                <pre class="snippet-wrapper"><button class="btn btn-light btn-sm copy-btn" data-clipboard-text="@kvp.Value"><i class="far fa-copy"></i></button><code class="cs">@kvp.Value</code></pre>
                             </div>
                         </div>
                     }
@@ -105,6 +105,7 @@
         var codeBlocks = $("#@modalId pre code");
         for (var i = 0; i < codeBlocks.length; i++) {
             hljs.highlightBlock(codeBlocks[i]);
+            hljs.lineNumbersBlock(codeBlocks[i]);
         }
         var clipboard = new ClipboardJS('#@modalId .btn');
         
