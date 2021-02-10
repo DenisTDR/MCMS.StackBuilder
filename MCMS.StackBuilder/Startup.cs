@@ -49,10 +49,11 @@ namespace MCMS.StackBuilder
             _mApp.Configure(app, serviceProvider);
             if (!string.IsNullOrEmpty(Env.Get("ASPNETCORE_URLS")) && !_mApp.HostEnvironment.IsProduction())
             {
-                logger.LogInformation("Open your browser at " +
-                                      Env.Get("ASPNETCORE_URLS").Replace("0.0.0.0", "localhost"));
-                logger.LogInformation("Swagger url " + Env.Get("ASPNETCORE_URLS").Replace("0.0.0.0", "localhost") +
-                                      Utils.UrlCombine(RoutePrefixes.RoutePrefix, "api/docs"));
+                logger.LogInformation("Open your browser at {Url}",
+                    Env.Get("ASPNETCORE_URLS").Replace("0.0.0.0", "localhost"));
+                logger.LogInformation("Swagger url {Url}{Path}",
+                    Env.Get("ASPNETCORE_URLS").Replace("0.0.0.0", "localhost"),
+                    Utils.UrlCombine(RoutePrefixes.RoutePrefix, "api/docs"));
             }
         }
     }
