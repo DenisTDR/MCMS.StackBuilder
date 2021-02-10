@@ -30,8 +30,9 @@ namespace MCMS.StackBuilder
                     },
                     new SwaggerConfigOptions
                     {
-                        Title = "MCMS Stack Builder api",
-                        Version = "v1"
+                        Title = "MCMS Stack Builder API",
+                        Version = "v1",
+                        UiType = DocsUiType.Both
                     })
                 .Build();
         }

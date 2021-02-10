@@ -6,6 +6,7 @@
     var eProps = Model.Properties.Where(p => p.Type == PropertyType.CustomType && p.IsEntityWithStack).ToList();
     var nleProps = eProps.Where(p => !p.IsList).ToList();
     var jdtProps = eProps.Where(p => p.JoinDbTable).ToList();
+    var rnleSpotted = nleProps.Any(nle => nle.Required);
 }
 using MCMS.Controllers.Api;
 @if (eProps.Any())
@@ -16,7 +17,11 @@ using MCMS.Controllers.Api;
 @if (jdtProps.Any())
 {
     @Html.Raw("using Microsoft.AspNetCore.Mvc.Filters;\n")
-    @Html.Raw("using Microsoft.EntityFrameworkCore;")
+    @Html.Raw("using Microsoft.EntityFrameworkCore;\n")
+}
+@if (rnleSpotted)
+{
+    @Html.Raw("using MCMS.Base.Exceptions;\n")
 }
 
 namespace @Model.GetNamespace()
@@ -43,8 +48,20 @@ CrudAdminApiController @Html.Raw("<")@Model.GetNameFor(ModelType.Entity), @Model
 
     foreach (var prop in nleProps)
     {
-        @Html.Raw($"if(e.{prop.Name} != null) \n")
-        @Html.Raw($"ServiceProvider.GetRepo<{prop.GetCustomTypeName(ModelType.Entity)}>().Attach(e.{prop.Name});\n")
+        @if (prop.Required)
+        {
+            <text>
+                if(string.IsNullOrEmpty(e.@(prop.Name)?.Id))
+                    throw new KnownException("@prop.Name not provided or invalid");
+            </text>
+        }
+        else
+        {
+            <text>
+                if(e.@prop.Name != null)
+            </text>
+        }
+        @Html.Raw($"\ne.{prop.Name}=ServiceProvider.GetRepo<{prop.GetCustomTypeName(ModelType.Entity)}>().Attach(e.{prop.Name});\n")
     }
 
     @Html.Raw("return Task.CompletedTask; ")
