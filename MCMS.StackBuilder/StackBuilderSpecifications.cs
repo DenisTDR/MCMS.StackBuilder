@@ -25,9 +25,7 @@ namespace MCMS.StackBuilder
             });
             services.Configure<MenuConfig>(ConfigureMenu);
             services.AddScoped<StackCodeGenerator>();
-            
-            services.AddOptions<LayoutIncludesOptions>().Configure(c => { c.AddForPages("CustomLibIncludes"); });
-        }
+       }
 
         private void ConfigureMenu(MenuConfig config)
         {
