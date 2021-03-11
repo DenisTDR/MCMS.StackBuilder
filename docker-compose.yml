@@ -1,0 +1,25 @@
+# local use only; server deployment uses a docker-compose file that is not in git
+# you will find that file in /home/docker/${project}/...
+
+version: '3.1'
+services:
+  mcms-sb:
+    image: mcms-sb:latest
+    container_name: mcms-sb
+    restart: always
+    environment:
+      - TZ=Europe/Bucharest
+    env_file:
+      - .docker.env
+    ports:
+      - 6900:6900
+    networks:
+      postgres-net:
+    volumes:
+      - ./persisted:/app/persisted
+
+networks:
+  postgres-net:
+    external:
+      name: postgres-net
+
