@@ -20,7 +20,6 @@ namespace MCMS.StackBuilder
         {
             _mApp = new MAppBuilder(environment)
                 .AddSpecifications<MCommonSpecifications>()
-                // .AddSpecifications<MFilesSpecifications>()
                 .AddSpecifications<StackBuilderSpecifications>()
                 .WithPostgres<ApplicationDbContext>()
                 .WithSwagger(new SwaggerConfigOptions

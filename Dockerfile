@@ -13,7 +13,9 @@ WORKDIR /app/src/
 
 RUN dotnet restore
 
-COPY ./ /app/src
+COPY ./ /app/src/
+
+WORKDIR /app/src/MCMS.StackBuilder/
 
 RUN dotnet publish --output "/app/bin" --configuration release 
 
