@@ -14,7 +14,7 @@ namespace MCMS.StackBuilder.Stacks
     [Display(Name = "Stack")]
     public class StackViewModel : ViewModel
     {
-        [TableColumn] public string Token { get; set; }
+        public string Token { get; set; }
         public string Name { get; set; }
 
         [TableColumn(DbColumn = "Name", DbFuncFormat = "MDbFunctions.Concat(x.RootNamespace, '.', {0})")]

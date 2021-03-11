@@ -12,11 +12,11 @@ services:
     env_file:
       - .docker.env
     ports:
-      - 6900:6900
+      - 6901:6901
     networks:
       postgres-net:
     volumes:
-      - ./persisted:/app/persisted
+      - ../persisted:/app/persisted
 
 networks:
   postgres-net:
