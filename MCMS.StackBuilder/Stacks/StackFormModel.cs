@@ -10,7 +10,7 @@ namespace MCMS.StackBuilder.Stacks
     public class StackFormModel : IFormModel
     {
         [FormlyField(ClassName = "col-4 d-flex")]
-        [RegularExpression("^[a-zA-Z_][a-zA-Z0-9_]{3,}$")]
+        [RegularExpression("^[a-zA-Z_][a-zA-Z0-9_]{2,}$")]
         [Required]
         public string Name { get; set; }
 

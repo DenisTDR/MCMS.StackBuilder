@@ -25,7 +25,8 @@ namespace MCMS.StackBuilder
             });
             services.Configure<MenuConfig>(ConfigureMenu);
             services.AddScoped<StackCodeGenerator>();
-       }
+            services.AddOptions<LayoutIncludesOptions>().Configure(c => { c.AddForPages("MCMSStackBuilderIncludes"); });
+        }
 
         private void ConfigureMenu(MenuConfig config)
         {
@@ -40,12 +41,13 @@ namespace MCMS.StackBuilder
                         .WithIconClasses("fas fa-globe"),
                     // new MenuLink("Fișiere", typeof(FilesController)).WithIconClasses("fas fa-copy"),
                     new MenuLink("Swagger", "~/api/docs").WithIconClasses("fas fa-file-contract").WithTarget("_blank"),
-                    new MenuLink("ReDoc", "~/api/redoc/api").WithIconClasses("fas fa-file-contract").WithTarget("_blank"),
+                    new MenuLink("ReDoc", "~/api/redoc/api").WithIconClasses("fas fa-file-contract")
+                        .WithTarget("_blank"),
                 }
             }.RequiresRoles("Admin"));
 
             config.Items.Add(
-                new MenuLink("Stacks", typeof(StacksAdminUiController)).WithIconClasses("fas fa-users")
+                new MenuLink("Stacks", typeof(StacksAdminUiController)).WithIconClasses("mi mi-stack")
                     .RequiresRoles("Moderator"));
         }
     }

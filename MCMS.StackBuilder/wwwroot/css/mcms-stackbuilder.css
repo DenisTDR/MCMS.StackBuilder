@@ -1,0 +1,3 @@
+.mi-stack::before {
+    --icon-url: url('../icons/stacked-files.svg');
+}

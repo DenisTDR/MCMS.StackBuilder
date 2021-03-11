@@ -14,13 +14,13 @@ namespace MCMS.StackBuilder.Stacks
     {
         public override IActionResult Create()
         {
-            ViewBag.ModalDialogClasses = "modal-xl";
+            ViewBag.ModalDialogClasses = "modal-3xl";
             return base.Create();
         }
 
         public override Task<IActionResult> Edit(string id)
         {
-            ViewBag.ModalDialogClasses = "modal-xl";
+            ViewBag.ModalDialogClasses = "modal-3xl";
             return base.Edit(id);
         }
 
