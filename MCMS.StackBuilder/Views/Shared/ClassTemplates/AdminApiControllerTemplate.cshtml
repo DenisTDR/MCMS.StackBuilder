@@ -23,9 +23,21 @@ using MCMS.Controllers.Api;
 {
     @Html.Raw("using MCMS.Base.Exceptions;\n")
 }
+@if (Model.Config.HasRequiredRoles)
+{
+    @Html.Raw("using Microsoft.AspNetCore.Authorization;")
+}
+
 
 namespace @Model.GetNamespace()
 {
+
+@if (Model.Config.HasRequiredRoles)
+{
+    <text>
+        [Authorize(Roles="@Model.Config.RequiredRoles")]
+    </text>
+}
 public class @Model.GetNameFor(ModelType.AdminApiController) :
 CrudAdminApiController @Html.Raw("<")@Model.GetNameFor(ModelType.Entity), @Model.GetNameFor(ModelType.FormModel), @Model.GetNameFor(ModelType.ViewModel)>
 {
@@ -52,7 +64,7 @@ CrudAdminApiController @Html.Raw("<")@Model.GetNameFor(ModelType.Entity), @Model
         {
             <text>
                 if(string.IsNullOrEmpty(e.@(prop.Name)?.Id))
-                    throw new KnownException("@prop.Name not provided or invalid");
+                throw new KnownException("@prop.Name not provided or invalid");
             </text>
         }
         else

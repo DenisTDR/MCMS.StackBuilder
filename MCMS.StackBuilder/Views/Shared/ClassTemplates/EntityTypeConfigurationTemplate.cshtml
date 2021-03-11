@@ -3,6 +3,8 @@
 @model MCMS.StackBuilder.Stacks.StackEntity
 @{
     Layout = null;
+    var eProps = Model.Properties.Where(p => p.Type == PropertyType.CustomType && p.IsEntityWithStack).ToList();
+    var nleProps = eProps.Where(p => !p.IsList).ToList();
 }
 using MCMS.Base.Data.TypeConfig;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -14,6 +16,15 @@ public class @(Model.GetNameFor(ModelType.Entity))TypeConfig : EntityTypeConfigu
 public override void Configure(EntityTypeBuilder< @Model.GetNameFor(ModelType.Entity)> builder)
 {
 base.Configure(builder);
+@foreach (var prop in nleProps)
+{
+    @if (prop.Required)
+    {
+        <text>
+             builder.HasOne(e => e.@prop.Name).WithMany().IsRequired();
+        </text>
+    }
+}
 }
 }
 }
