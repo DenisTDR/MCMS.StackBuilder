@@ -23,7 +23,7 @@ namespace MCMS.StackBuilder.Stacks.SubModels
         [FormlyField(ClassName = "col-2 d-flex-nf", DefaultValue = false)]
         public bool Required { get; set; }
 
-        [FormlyField(ClassName = "col-4 d-flex-nf", DefaultValue = false)]
+        [FormlyField(ClassName = "col-2 d-flex-nf", DefaultValue = false)]
         [FormlyFieldProp("hideExpression", "model.type !== 'string'")]
         [Display(Description = "Use CkEditor")]
         public bool IsRichText { get; set; }
