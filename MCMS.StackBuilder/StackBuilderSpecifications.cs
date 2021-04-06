@@ -22,7 +22,7 @@ namespace MCMS.StackBuilder
             {
                 c.SiteName = "Stack Builder - MCMS";
                 c.SiteCopyright = "Copyright &copy; TDR 2021";
-                c.FaviconPath = "/favicon.ico";
+                c.FaviconPath = "favicon.ico";
             });
             services.Configure<MenuConfig>(ConfigureMenu);
             services.AddScoped<StackCodeGenerator>();
