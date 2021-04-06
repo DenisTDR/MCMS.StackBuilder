@@ -1,21 +1,15 @@
 FROM mcr.microsoft.com/dotnet/sdk:5.0 as build-env
 WORKDIR /app/
 
-COPY ./MCMS.StackBuilder.sln /app/src/MCMS.StackBuilder.sln
-COPY ./MCMS/MCMS/MCMS.csproj /app/src/MCMS/MCMS/MCMS.csproj
-COPY ./MCMS/MCMS.Base/MCMS.Base.csproj /app/src/MCMS/MCMS.Base/MCMS.Base.csproj
-COPY ./MCMS/MCMS.Auth/MCMS.Auth.csproj /app/src/MCMS/MCMS.Auth/MCMS.Auth.csproj
-COPY ./MCMS/MCMS.Common/MCMS.Common.csproj /app/src/MCMS/MCMS.Common/MCMS.Common.csproj
-COPY ./MCMS/MCMS.Files/MCMS.Files.csproj /app/src/MCMS/MCMS.Files/MCMS.Files.csproj
 COPY ./MCMS.StackBuilder/MCMS.StackBuilder.csproj /app/src/MCMS.StackBuilder/MCMS.StackBuilder.csproj
 
-WORKDIR /app/src/
-
+WORKDIR /app/src/MCMS.StackBuilder/
+                                                                         
+ARG ENV_TYPE=CI_BUILD
+COPY MCMS.StackBuilder/nuget.config /root/.nuget/NuGet/NuGet.Config
 RUN dotnet restore
 
 COPY ./ /app/src/
-
-WORKDIR /app/src/MCMS.StackBuilder/
 
 RUN dotnet publish --output "/app/bin" --configuration release 
 

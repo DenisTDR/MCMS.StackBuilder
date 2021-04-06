@@ -1,29 +1,8 @@
 stages:
   - build
-#  - deploy
 
 build:
   stage: build
-  variables:
-    GIT_SUBMODULE_STRATEGY: recursive
   script:
     - docker build -t mcms-sb:latest .
 
-#deploy:
-#  stage: deploy
-#  variables:
-#    GIT_STRATEGY: none
-#  when: manual
-#  script: 
-#    - echo deploy123
-#  script:
-#    - cd dist/proj/browser || exit 1
-#    - tar -czf ../../../archive.tgz ./* || exit 1
-#    - cd ../../../
-#    - key_file=/tmp/ssh_key
-#    - cat "$SSH_KEY" > $key_file
-#    - chmod 600 $key_file
-#    - path=/opt/docker/restart/form
-#    - scp -o StrictHostKeyChecking=no -i "$key_file" ./archive.tgz user@ip:$path || exit 1
-#    - ssh -o StrictHostKeyChecking=no -i "$key_file" user@ip "cd $path/public_html && rm -rf * && tar -xzf ../archive.tgz && rm ../archive.tgz"
-#    - rm -rf ./archive.tgz "$key_file"

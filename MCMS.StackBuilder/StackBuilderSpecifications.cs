@@ -30,11 +30,11 @@ namespace MCMS.StackBuilder
 
         private void ConfigureMenu(MenuConfig config)
         {
-            config.Items.Add(new MenuSection
+            config.Add(new MenuSection
             {
                 Name = "Admin",
-                IsCollapsed = true,
-                Items = new List<IMenuItem>
+                IsCollapsable = true,
+                Items = new List<IMenuItemBase>
                 {
                     new MenuLink("Users", typeof(AdminUsersController)).WithIconClasses("fas fa-users"),
                     new MenuLink("Texts / Translations", typeof(TranslationsController))
@@ -46,9 +46,8 @@ namespace MCMS.StackBuilder
                 }
             }.RequiresRoles("Admin"));
 
-            config.Items.Add(
-                new MenuLink("Stacks", typeof(StacksAdminUiController)).WithIconClasses("mi mi-stack")
-                    .RequiresRoles("Moderator"));
+            config.Add(new MenuLink("Stacks", typeof(StacksAdminUiController)).WithIconClasses("mi mi-stack")
+                .RequiresRoles("Moderator"));
         }
     }
 }

@@ -19,7 +19,11 @@ namespace MCMS.StackBuilder
         public Startup(IWebHostEnvironment environment)
         {
             _mApp = new MAppBuilder(environment)
-                .AddSpecifications<MCommonSpecifications>()
+                .AddSpecifications<MCommonSpecifications>(configure: spec =>
+                {
+                    spec.Config.IncludeClipboardJs = true;
+                    spec.Config.IncludeHighlightJs = true;
+                })
                 .AddSpecifications<StackBuilderSpecifications>()
                 .WithPostgres<ApplicationDbContext>()
                 .WithSwagger(new SwaggerConfigOptions

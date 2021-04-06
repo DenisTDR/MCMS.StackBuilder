@@ -5,10 +5,11 @@
         <RootNamespace>MCMS.StackBuilder</RootNamespace>
     </PropertyGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\MCMS\MCMS.Base\MCMS.Base.csproj" />
+    <ItemGroup Condition="$(ENV_TYPE) != 'CI_BUILD'">
         <ProjectReference Include="..\MCMS\MCMS.Common\MCMS.Common.csproj" />
-        <ProjectReference Include="..\MCMS\MCMS\MCMS.csproj" />
+    </ItemGroup>
+    <ItemGroup Condition="$(ENV_TYPE) == 'CI_BUILD'">
+        <PackageReference Include="MCMS.Common" Version="0.0.7" />
     </ItemGroup>
 
     <ItemGroup>
