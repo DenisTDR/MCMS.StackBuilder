@@ -10,7 +10,7 @@
         <ProjectReference Include="..\MCMS\MCMS.Common\MCMS.Common.csproj" />
     </ItemGroup>
     <ItemGroup Condition="$(ENV_TYPE) == 'CI_BUILD'">
-        <PackageReference Include="MCMS.Common" Version="0.0.17" />
+        <PackageReference Include="MCMS.Common" Version="0.0.20" />
     </ItemGroup>
 
     <ItemGroup>
