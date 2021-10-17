@@ -4,13 +4,10 @@
 @{
     Layout = null;
 }
+
 using System.ComponentModel.DataAnnotations;
 using MCMS.Base.Data.ViewModels;
-
-@if (Model.Properties.Any(p => p.IsList))
-{
-    @Html.Raw("using System.Collections.Generic;")
-}
+<partial name="ClassTemplates/CommonUsingSection"/>
 
 namespace @Model.GetNamespace()
 {

@@ -4,8 +4,10 @@
 @{
     Layout = null;
 }
+
 using System.ComponentModel.DataAnnotations.Schema;
 using MCMS.Base.Data.Entities;
+<partial name="ClassTemplates/CommonUsingSection"/>
 @if (Model.Properties.Any(p => p.IsList))
 {
     @Html.Raw("using System.Collections.Generic;")

@@ -1,0 +1,21 @@
+@using MCMS.StackBuilder.Stacks.SubModels
+@model MCMS.StackBuilder.Stacks.StackEntity
+
+
+@if (Model.Properties.Any(p => p.Type == PropertyType.DateTime))
+{
+    @Html.Raw("using System;")
+}
+@if (Model.Properties.Any(p => p.Type == PropertyType.McmsFile))
+{
+    @Html.Raw("using MCMS.Files.Models;")
+}
+@if (Model.Properties.Any(p => p.IsList))
+{
+    @Html.Raw("using System.Collections.Generic;")
+}
+@foreach (var nsToInclude in Model.Properties.Where(p => p.Type == PropertyType.CustomType && !string.IsNullOrEmpty(p.CustomTypeNamespace))
+    .Select(p => p.CustomTypeNamespace))
+{
+    @Html.Raw($"using {nsToInclude};")
+}

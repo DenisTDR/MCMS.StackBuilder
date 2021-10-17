@@ -17,6 +17,9 @@ namespace MCMS.StackBuilder.Stacks.SubModels
                     }
 
                     return str;
+
+                case PropertyType.McmsFile:
+                    return modelType != ModelType.Entity ? "FileViewModel" : "FileEntity";
                 case PropertyType.NewEnum:
                     return propertyModel.EnumName;
                 default:
@@ -35,6 +38,8 @@ namespace MCMS.StackBuilder.Stacks.SubModels
             {
                 case ModelType.Entity:
                     return propertyModel.CustomType + "Entity";
+                case ModelType.AdminApiController:
+                    return propertyModel.CustomType + "sAdminApiController";
                 default:
                     return propertyModel.CustomType + "ViewModel";
             }

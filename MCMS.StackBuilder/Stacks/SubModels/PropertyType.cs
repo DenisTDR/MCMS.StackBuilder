@@ -23,8 +23,14 @@ namespace MCMS.StackBuilder.Stacks.SubModels
         [EnumMember(Value = "bool")] [Display(Name = "bool")]
         Bool,
 
+        [EnumMember(Value = "DateTime")] [Display(Name = "DateTime")]
+        DateTime,
+
         [EnumMember(Value = "newEnum")] [Display(Name = "New Enum")]
         NewEnum,
+        
+        [EnumMember(Value = "mcmsFile")] [Display(Name = "MCMS File")]
+        McmsFile,
 
         [EnumMember(Value = "customType")] [Display(Name = "Custom Existing Type")]
         CustomType,
