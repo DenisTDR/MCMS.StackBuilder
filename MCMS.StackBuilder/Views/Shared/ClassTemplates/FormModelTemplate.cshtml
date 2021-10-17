@@ -15,6 +15,14 @@ using MCMS.Base.Data.FormModels;
 {
     @Html.Raw("using System.ComponentModel.DataAnnotations;")
 }
+@if (Model.Properties.Any(p => p.IsFileWithUploadField()))
+{
+    @Html.Raw("using MCMS.Files.Attributes;")
+}
+@if (Model.Properties.Any(p => p.ShouldUseSelectFormField()))
+{
+    @Html.Raw("using MCMS.Base.SwaggerFormly.Formly.Fields;")
+}
 
 namespace @Model.GetNamespace()
 {
@@ -48,7 +56,7 @@ public class @Model.GetNameFor(ModelType.FormModel) : IFormModel
     }
     if (prop.ShouldUseSelectFormField())
     {
-        @Html.Raw("[FormlyAutocomplete(typeof(" + prop.GetCustomTypeName(ModelType.AdminApiController) + "), labelProp: \"name\",\n ShowReloadButton = true)]")
+        @Html.Raw("[FormlySelect(typeof(" + prop.GetCustomTypeName(ModelType.AdminApiController) + "), labelProp: \"name\",\n ShowReloadButton = true)]")
     }
     if (prop.Required)
     {
