@@ -3,7 +3,9 @@
 @model MCMS.StackBuilder.Stacks.StackEntity
 @{
     Layout = null;
-    var eProps = Model.Properties.Where(p => p.Type == PropertyType.CustomType && p.IsEntityWithStack).ToList();
+    var eProps = Model.Properties
+        .Where(p => p.Type == PropertyType.CustomType && p.IsEntityWithStack || p.Type == PropertyType.McmsFile)
+        .ToList();
     var nleProps = eProps.Where(p => !p.IsList).ToList();
 }
 using MCMS.Base.Data.TypeConfig;
@@ -21,7 +23,7 @@ base.Configure(builder);
     @if (prop.Required)
     {
         <text>
-             builder.HasOne(e => e.@prop.Name).WithMany().IsRequired();
+            builder.HasOne(e => e.@prop.Name).WithMany().IsRequired();
         </text>
     }
 }
