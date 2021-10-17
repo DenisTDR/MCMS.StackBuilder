@@ -8,6 +8,11 @@
 using System.ComponentModel.DataAnnotations;
 using MCMS.Base.Data.ViewModels;
 <partial name="ClassTemplates/CommonUsingSection"/>
+@if (Model.Properties.Any(p => p.ShouldUseToStringJsonConverter()))
+{
+    @Html.Raw("MCMS.Base.Attributes.JsonConverters; \n")
+    @Html.Raw("Newtonsoft.Json; \n")
+}
 
 namespace @Model.GetNamespace()
 {
@@ -20,6 +25,10 @@ public class @Model.GetNameFor(ModelType.ViewModel) : ViewModel
     if (!string.IsNullOrEmpty(prop.DisplayName))
     {
         @Html.Raw("[Display(Name=\"" + prop.DisplayName + "\")] \n")
+    }
+    if (prop.ShouldUseToStringJsonConverter())
+    {
+        @Html.Raw("[JsonConverter(typeof(ToStringJsonConverter))] \n")
     }
     @Html.Raw($"public {prop.GetTypeStr(ModelType.ViewModel)} {prop.Name} {{ get; set; }} \n")
 }

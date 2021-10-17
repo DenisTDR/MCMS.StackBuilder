@@ -55,10 +55,16 @@ namespace MCMS.StackBuilder.Stacks.SubModels
         public bool UseSelectFormField { get; set; }
 
         [FormlyField(ClassName = "col-2 d-flex-nf", DefaultValue = true)]
-        [FormlyFieldProp("hideExpression", "model.type !== 'customType'")]
-        [FormlyFieldProp("templateOptions.disabled", "!model.isEntityWithStack", "expressionProperties")]
+        [FormlyFieldProp("hideExpression", "model.type !== 'customType' && model.type !== 'mcmsFile'")]
+        [FormlyFieldProp("templateOptions.disabled", "!model.isEntityWithStack && model.type !== 'mcmsFile'",
+            "expressionProperties")]
         [DisplayName("Join db table")]
         public bool JoinDbTable { get; set; }
+
+        [FormlyField(ClassName = "col-2 d-flex-nf", DefaultValue = true)]
+        [FormlyFieldProp("hideExpression", "model.type !== 'customType' && model.type !== 'mcmsFile'")]
+        [DisplayName("Use ToStringJsonConverter")]
+        public bool UseToStringJsonConverter { get; set; }
 
         [FormlyField(ClassName = "col-3 d-flex-nf")]
         [FormlyFieldProp("hideExpression", "model.type !== 'newEnum'")]
@@ -94,9 +100,15 @@ namespace MCMS.StackBuilder.Stacks.SubModels
         {
             return Type == PropertyType.McmsFile && FileOptions?.UseFileUploaderInForm == true;
         }
+
         public bool ShouldUseSelectFormField()
         {
             return Type == PropertyType.CustomType && IsEntityWithStack && UseSelectFormField;
+        }
+
+        public bool ShouldUseToStringJsonConverter()
+        {
+            return Type is PropertyType.CustomType or PropertyType.McmsFile && UseToStringJsonConverter;
         }
     }
 }

@@ -3,7 +3,9 @@
 @model MCMS.StackBuilder.Stacks.StackEntity
 @{
     Layout = null;
-    var eProps = Model.Properties.Where(p => p.Type == PropertyType.CustomType && p.IsEntityWithStack).ToList();
+    var eProps = Model.Properties
+        .Where(p => p.Type == PropertyType.CustomType && p.IsEntityWithStack || p.Type == PropertyType.McmsFile)
+        .ToList();
     var jdtProps = eProps.Where(p => p.JoinDbTable).ToList();
 }
 using System.ComponentModel.DataAnnotations;
