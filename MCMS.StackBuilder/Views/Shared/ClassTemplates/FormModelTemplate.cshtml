@@ -51,7 +51,7 @@ public class @Model.GetNameFor(ModelType.FormModel) : IFormModel
         var path = string.IsNullOrEmpty(options.FilePath) ? string.IsNullOrEmpty(options.FilePurpose) ? "default" : options.FilePurpose : options.FilePath;
         var extensions = string.IsNullOrEmpty(options.AllowedExtensions) ? "" : string.Join(", ", options.AllowedExtensions
             .Split(",", StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries).Select(ext => "\"" + ext + "\""));
-        @Html.Raw("[FormlyFile(typeof(SessionFilesApiController), nameof(SessionFilesApiController.Upload), \"" +
+        @Html.Raw("[FormlyFile(typeof(FilesAdminApiController), nameof(FilesAdminApiController.Upload), \"" +
                   $"{purpose}\",\n\"{path}\", Accept = new[] {{{extensions}}})]")
     }
     if (prop.ShouldUseSelectFormField())
