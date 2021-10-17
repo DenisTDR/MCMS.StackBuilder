@@ -10,8 +10,8 @@ using MCMS.Base.Data.ViewModels;
 <partial name="ClassTemplates/CommonUsingSection"/>
 @if (Model.Properties.Any(p => p.ShouldUseToStringJsonConverter()))
 {
-    @Html.Raw("MCMS.Base.Attributes.JsonConverters; \n")
-    @Html.Raw("Newtonsoft.Json; \n")
+    @Html.Raw("using MCMS.Base.Attributes.JsonConverters; \n")
+    @Html.Raw("using Newtonsoft.Json; \n\n")
 }
 
 namespace @Model.GetNamespace()

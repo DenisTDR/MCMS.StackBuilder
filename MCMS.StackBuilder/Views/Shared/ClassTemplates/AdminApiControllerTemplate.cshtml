@@ -18,6 +18,10 @@ using MCMS.Controllers.Api;
 {
     @Html.Raw("using Microsoft.AspNetCore.Mvc.Filters;\n")
     @Html.Raw("using Microsoft.EntityFrameworkCore;\n")
+    @foreach (var jdtPropNs in jdtProps.Select(p => p.CustomTypeNamespace).Where(ctns => !string.IsNullOrEmpty(ctns)).Distinct())
+    {
+        @Html.Raw($"using {jdtPropNs};\n")
+    }
 }
 @if (rnleSpotted)
 {
