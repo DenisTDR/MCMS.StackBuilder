@@ -15,7 +15,7 @@
     @Html.Raw("using System.Collections.Generic;")
 }
 @foreach (var nsToInclude in Model.Properties.Where(p => p.Type == PropertyType.CustomType && !string.IsNullOrEmpty(p.CustomTypeNamespace))
-    .Select(p => p.CustomTypeNamespace))
+    .Select(p => p.CustomTypeNamespace).Distinct())
 {
     @Html.Raw($"using {nsToInclude};")
 }
