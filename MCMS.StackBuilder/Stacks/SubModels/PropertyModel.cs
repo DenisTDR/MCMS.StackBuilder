@@ -63,7 +63,7 @@ namespace MCMS.StackBuilder.Stacks.SubModels
 
         [FormlyField(ClassName = "col-2 d-flex-nf", DefaultValue = true)]
         [FormlyFieldProp("hideExpression", "model.type !== 'customType' && model.type !== 'mcmsFile'")]
-        [DisplayName("Use ToStringJsonConverter")]
+        [DisplayName("Use ToString JsonConverter")]
         public bool UseToStringJsonConverter { get; set; }
 
         [FormlyField(ClassName = "col-3 d-flex-nf")]
@@ -76,8 +76,8 @@ namespace MCMS.StackBuilder.Stacks.SubModels
         public List<EnumMemberModel> EnumMembers { get; set; }
 
         [FormlyFieldProp("hideExpression", "field.parent.model.type !== 'mcmsFile'")]
-        [FormlyFieldGroup(FieldGroupClassName = "full-width d-flex-nf")]
-        [FormlyField(ClassName = "col-12 d-flex-nf")]
+        [FormlyFieldGroup(FieldGroupClassName = "d-contents")]
+        [FormlyField(ClassName = "d-contents")]
         // , Wrappers = new[] { "card" }
         public FileFieldOptions FileOptions { get; set; }
 
