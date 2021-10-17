@@ -18,6 +18,7 @@ using MCMS.Base.Data.FormModels;
 @if (Model.Properties.Any(p => p.IsFileWithUploadField()))
 {
     @Html.Raw("using MCMS.Files.Attributes;")
+    @Html.Raw("using MCMS.Files.Controllers;")
 }
 @if (Model.Properties.Any(p => p.ShouldUseSelectFormField()))
 {
