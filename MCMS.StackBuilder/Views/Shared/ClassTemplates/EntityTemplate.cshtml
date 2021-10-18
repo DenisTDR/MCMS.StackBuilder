@@ -3,20 +3,19 @@
 @model MCMS.StackBuilder.Stacks.StackEntity
 @{
     Layout = null;
+    var includes = new List<string>
+    {
+        "System.ComponentModel.DataAnnotations.Schema",
+        "MCMS.Base.Data.Entities"
+    };
+    if (Model.Properties.Any(p => p.Required))
+    {
+        includes.Add("System.ComponentModel.DataAnnotations;");
+    }
+
 }
 
-using System.ComponentModel.DataAnnotations.Schema;
-using MCMS.Base.Data.Entities;
-<partial name="ClassTemplates/CommonUsingSection"/>
-@if (Model.Properties.Any(p => p.IsList))
-{
-    @Html.Raw("using System.Collections.Generic;")
-}
-@if (Model.Properties.Any(p => p.Required))
-{
-    @Html.Raw("using System.ComponentModel.DataAnnotations;")
-}
-
+<partial name="ClassTemplates/CommonUsingSection" model="(Model, includes)"/>
 
 namespace @Model.GetNamespace()
 {

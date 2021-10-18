@@ -1,21 +1,25 @@
 @using MCMS.StackBuilder.Stacks.SubModels
-@model MCMS.StackBuilder.Stacks.StackEntity
-
-
-@if (Model.Properties.Any(p => p.Type == PropertyType.DateTime))
-{
-    @Html.Raw("using System;")
+@model (MCMS.StackBuilder.Stacks.StackEntity stack, List<string> source)
+@{
+    var src = Model.source.ToList();
 }
-@if (Model.Properties.Any(p => p.Type == PropertyType.McmsFile))
+@if (Model.stack.Properties.Any(p => p.Type == PropertyType.DateTime))
 {
-    @Html.Raw("using MCMS.Files.Models;")
+    src.Add("System");
 }
-@if (Model.Properties.Any(p => p.IsList))
+@if (Model.stack.Properties.Any(p => p.Type == PropertyType.McmsFile))
 {
-    @Html.Raw("using System.Collections.Generic;")
+    src.Add("MCMS.Files.Models");
 }
-@foreach (var nsToInclude in Model.Properties.Where(p => p.Type == PropertyType.CustomType && !string.IsNullOrEmpty(p.CustomTypeNamespace))
-    .Select(p => p.CustomTypeNamespace).Distinct())
+@if (Model.stack.Properties.Any(p => p.IsList))
 {
-    @Html.Raw($"using {nsToInclude};")
+    src.Add("System.Collections.Generic");
+}
+@{
+    src.AddRange(Model.stack.Properties.Where(p => p.Type == PropertyType.CustomType && !string.IsNullOrEmpty(p.CustomTypeNamespace)).Select(p => p.CustomTypeNamespace));
+    src = src.Distinct().OrderBy(s => s).ToList();
+}
+@foreach (var s in src)
+{
+    @Html.Raw($"using {s};\n")
 }

@@ -3,27 +3,24 @@
 @model MCMS.StackBuilder.Stacks.StackEntity
 @{
     Layout = null;
+    var includes = new List<string>
+    {
+        "MCMS.Base.Data.FormModels",
+    };
+    if (Model.Properties.Any(p => p.IsValidList() || p.UseCkEditor()))
+        includes.Add("MCMS.Base.SwaggerFormly.Formly.Fields");
+    if (Model.Properties.Any(p => !string.IsNullOrEmpty(p.DisplayName) || p.Required))
+        includes.Add("System.ComponentModel.DataAnnotations");
+    if (Model.Properties.Any(p => p.IsFileWithUploadField()))
+    {
+        includes.Add("MCMS.Files.Attributes");
+        includes.Add("MCMS.Files.Controllers");
+    }
+    if (Model.Properties.Any(p => p.ShouldUseSelectFormField()))
+        includes.Add("MCMS.Base.SwaggerFormly.Formly.Fields");
 }
 
-using MCMS.Base.Data.FormModels;
-<partial name="ClassTemplates/CommonUsingSection"/>
-@if (Model.Properties.Any(p => p.IsValidList() || p.UseCkEditor()))
-{
-    @Html.Raw("using MCMS.Base.SwaggerFormly.Formly.Fields;")
-}
-@if (Model.Properties.Any(p => !string.IsNullOrEmpty(p.DisplayName) || p.Required))
-{
-    @Html.Raw("using System.ComponentModel.DataAnnotations;")
-}
-@if (Model.Properties.Any(p => p.IsFileWithUploadField()))
-{
-    @Html.Raw("using MCMS.Files.Attributes;")
-    @Html.Raw("using MCMS.Files.Controllers;")
-}
-@if (Model.Properties.Any(p => p.ShouldUseSelectFormField()))
-{
-    @Html.Raw("using MCMS.Base.SwaggerFormly.Formly.Fields;")
-}
+<partial name="ClassTemplates/CommonUsingSection" model="(Model, includes)"/>
 
 namespace @Model.GetNamespace()
 {
