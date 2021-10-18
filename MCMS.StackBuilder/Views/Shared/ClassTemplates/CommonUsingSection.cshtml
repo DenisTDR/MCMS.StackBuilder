@@ -17,7 +17,8 @@
 }
 @{
     src.AddRange(Model.stack.Properties.Where(p => p.Type == PropertyType.CustomType && !string.IsNullOrEmpty(p.CustomTypeNamespace)).Select(p => p.CustomTypeNamespace));
-    src = src.Distinct().OrderBy(s => s).ToList();
+    var ns = Model.stack.GetNamespace();
+    src = src.Where(s => !ns.Contains(s)).Distinct().OrderBy(s => s).ToList();
 }
 @foreach (var s in src)
 {

@@ -6,10 +6,14 @@
     var includes = new List<string>
     {
         "System.ComponentModel.DataAnnotations",
-        "MCMS.Base.Data.ViewModels",
-        "MCMS.Base.Attributes.JsonConverters",
-        "Newtonsoft.Json"
+        "MCMS.Base.Data.ViewModels"
     };
+    if (Model.Properties.Any(p => p.ShouldUseToStringJsonConverter()))
+    {
+        includes.Add("MCMS.Base.Attributes.JsonConverters");
+        includes.Add("Newtonsoft.Json");
+    }
+
 }
 <partial name="ClassTemplates/CommonUsingSection" model="(Model, includes)"/>
 
