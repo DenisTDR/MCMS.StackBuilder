@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:5.0 as build-env
+FROM mcr.microsoft.com/dotnet/sdk:6.0 as build-env
 WORKDIR /app/
 
 COPY ./MCMS.StackBuilder.sln /app/src/MCMS.StackBuilder.sln
@@ -14,7 +14,7 @@ COPY ./ /app/src/
 
 RUN dotnet publish --output "/app/bin" -c release 
 
-FROM mcr.microsoft.com/dotnet/aspnet:5.0 as runtime-env
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 as runtime-env
 RUN apt-get update && apt-get install -y \
     sudo \
     net-tools \
