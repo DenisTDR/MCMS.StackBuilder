@@ -1,1 +1,1 @@
-dotnet watch --project MCMS.StackBuilder run
+dotnet watch --no-hot-reload --project MCMS.StackBuilder run

@@ -3,14 +3,14 @@
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <RootNamespace>MCMS.StackBuilder</RootNamespace>
-        <Version>2.0.2</Version>
+        <Version>2.0.3</Version>
     </PropertyGroup>
 
     <ItemGroup Condition="$(ENV_TYPE) != 'CI_BUILD'">
         <ProjectReference Include="..\MCMS\MCMS.Common\MCMS.Common.csproj" />
     </ItemGroup>
     <ItemGroup Condition="$(ENV_TYPE) == 'CI_BUILD'">
-        <PackageReference Include="MCMS.Common" Version="0.0.35-beta1" />
+        <PackageReference Include="MCMS.Common" Version="0.0.35-beta11" />
     </ItemGroup>
 
     <ItemGroup>
